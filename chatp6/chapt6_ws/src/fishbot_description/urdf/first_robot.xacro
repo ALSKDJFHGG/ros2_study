@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot name="first_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- 定义常用参数 -->
+    <xacro:property name="base_radius" value="0.10"/>
+    <xacro:property name="base_length" value="0.12"/>
+    <xacro:property name="imu_size" value="0.02"/>
+
+    <!-- 颜色参数 -->
+    <xacro:property name="color_white" value="1.0 1.0 1.0 0.5"/>
+    <xacro:property name="color_black" value="0.0 0.0 0.0 0.5"/>
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="${base_radius}" length="${base_length}"/>
+            </geometry>
+            <material name="white">
+                <color rgba="${color_white}"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="imu_link">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${imu_size} ${imu_size} ${imu_size}"/>
+            </geometry>
+            <material name="black">
+                <color rgba="${color_black}"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="imu_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu_link"/>
+        <origin xyz="0.0 0.0 0.03" rpy="0.0 0.0 0.0"/>
+    </joint>
+</robot>
