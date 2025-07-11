@@ -6,6 +6,7 @@
     日期：2025-07-11
 -->
 <robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:include filename="$(find fishbot_description)/urdf/fishbot/common_inertia.xacro" />
     <!-- 底盘参数定义 -->
     <!-- <xacro:property name="base_radius" value="0.10"/>
     <xacro:property name="base_length" value="0.12"/> -->
@@ -39,6 +40,7 @@
                     <color rgba="${color_white}"/>
                 </material>
             </collision>
+            <xacro:cylinder_inertia m="1.0" r="${base_radius}" h="${base_length}"/>
         </link>
 
         <joint name="footprint_joint" type="fixed">

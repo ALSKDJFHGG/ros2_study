@@ -6,6 +6,7 @@
     日期：2025-07-11
 -->
 <robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+   <xacro:include filename="$(find fishbot_description)/urdf/fishbot/common_inertia.xacro" />
     <!-- 摄像头相关参数定义 -->
     <xacro:property name="base_radius" value="0.10"/>
     <xacro:property name="base_length" value="0.12"/>
@@ -40,6 +41,7 @@
                     <color rgba="${color_green}"/>
                 </material>
             </collision>
+            <xacro:box_inertia m="0.01" w="0.02" h="0.10" d="0.02" />
         </link>
 
         <!-- 定义摄像头与 base_link 的固定 joint -->

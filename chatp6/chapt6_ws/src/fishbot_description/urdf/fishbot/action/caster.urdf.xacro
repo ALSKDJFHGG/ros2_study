@@ -6,7 +6,7 @@
     日期：2025-07-11
 -->
 <robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
-
+   <xacro:include filename="$(find fishbot_description)/urdf/fishbot/common_inertia.xacro" />
     <!--
         宏：caster_xacro
         参数：${caster_name}, xyz
@@ -33,6 +33,7 @@
                     <color rgba="1.0 1.0 0.0 0.8"/>
                 </material>
             </collision>
+            <xacro:sphere_inertia m="0.01" r="0.016" />
         </link>
 
         <!-- 定义 caster 与 base_link 的固定 joint -->

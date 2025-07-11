@@ -6,6 +6,7 @@
     日期：2025-07-11
 -->
 <robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+   <xacro:include filename="$(find fishbot_description)/urdf/fishbot/common_inertia.xacro" />
     <!-- IMU 传感器尺寸参数 -->
     <xacro:property name="imu_size" value="0.02"/>
     <!-- IMU 传感器颜色参数 -->
@@ -37,6 +38,7 @@
                     <color rgba="${color_black}"/>
                 </material>
             </collision>
+            <xacro:box_inertia m="0.01" w="0.02" d="0.02" h="0.02"/>
         </link>
 
         <!-- 定义 IMU 与 base_link 的固定 joint -->
