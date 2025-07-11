@@ -96,5 +96,12 @@
             <origin xyz="0.06 0.0 0.09" rpy="0.0 0.0 0.0"/>
         </joint>
         
+        <gazebo reference="laser_cylinder_link">
+            <material>Gazebo/Green</material>
+        </gazebo>
+        <gazebo reference="laser_link">
+            <material>Gazebo/Red</material>
+        </gazebo>
+
     </xacro:macro>
 </robot>
