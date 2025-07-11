@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+    文件：laser.urdf.xacro
+    功能：定义激光传感器的 xacro 宏
+    作者：hzy
+    日期：2025-07-11
+-->
+<robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- 激光传感器支撑杆尺寸参数 -->
+    <xacro:property name="laser_cy_radius" value="0.005"/>
+    <xacro:property name="laser_cy_length" value="0.05" />
+    <!-- 雷达参数 -->
+    <xacro:property name="laser_radius" value="0.02" />
+    <xacro:property name="laser_length" value="0.02" />
+    <!-- 激光传感器颜色参数 -->
+    <xacro:property name="color_green" value="0.0 1.0 0.0 0.8"/>
+    <xacro:property name="color_black" value="0.0 0.0 0.0 0.8"/>
+
+    <!--
+        宏：laser_xacro
+        参数：imu_size, color_black, xyz
+        功能：生成激光传感器 link 及其与 base_link 的固定 joint
+    -->
+    <xacro:macro name="laser_xacro" params="xyz">
+        <!-- 定义激光传感器支撑杆 link -->
+        <link name="laser_cylinder_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${laser_cy_radius}" length="${laser_cy_length}"/>
+                </geometry>
+                <material name="green">
+                    <color rgba="${color_green}"/>
+                </material>
+            </visual>
+        </link>
+        <!-- 雷达 -->
+        <link name="laser_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${laser_radius}" length="${laser_length}"/>
+                </geometry>
+                <material name="black">
+                    <color rgba="${color_black}"/>
+                </material>
+            </visual>
+        </link>
+
+        <!-- 定义激光传感器与 base_link 的固定 joint -->
+        <joint name="laser_joint" type="fixed">
+            <parent link="laser_cylinder_link"/>
+            <child link="laser_link"/>
+            <origin xyz="0.0 0.0 0.035" rpy="0.0 0.0 0.0"/>
+        </joint>
+
+        <joint name="laser_cylinker_link" type="fixed">
+            <parent link="base_link"/>
+            <child link="laser_cylinder_link"/>
+            <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+        </joint>
+        
+    </xacro:macro>
+</robot>

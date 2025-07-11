@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+    文件：wheel.urdf.xacro
+    功能：定义 wheel 的 xacro 宏
+    作者：hzy
+    日期：2025-07-11
+-->
+<robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!--
+        宏：wheel_xacro
+        参数：${wheel_name}, xyz
+        功能：生成 wheel link 及其与 base_link 的固定 joint
+    -->
+    <xacro:macro name="wheel_xacro" params="wheel_name xyz">
+        <!-- 定义 {wheel_name} link -->
+        <link name="${wheel_name}_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="1.57097 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="0.032" length="0.04"/>
+                </geometry>
+                <material name="yellow">
+                    <color rgba="1.0 1.0 0.0 0.8"/>
+                </material>
+            </visual>
+        </link>
+
+        <!-- 定义 wheel 与 base_link 的固定 joint -->
+        <joint name="${wheel_name}_joint" type="continuous">
+            <parent link="base_link"/>
+            <child link="${wheel_name}_link"/>
+            <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+            <axis xyz="0.0 1.0 0.0"/>
+        </joint>
+    </xacro:macro>
+</robot>

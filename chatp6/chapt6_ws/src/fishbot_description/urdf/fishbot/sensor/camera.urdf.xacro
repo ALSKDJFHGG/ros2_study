@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+    文件：camera.urdf.xacro
+    功能：定义摄像头传感器的 xacro 宏
+    作者：hzy
+    日期：2025-07-11
+-->
+<robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- 摄像头相关参数定义 -->
+    <xacro:property name="base_radius" value="0.10"/>
+    <xacro:property name="base_length" value="0.12"/>
+    <xacro:property name="imu_size" value="0.02"/>
+
+    <!-- 颜色参数定义 -->
+    <xacro:property name="color_green" value="0.0 1.0 0.0 0.5"/>
+
+    <!--
+        宏：camera_xacro
+        参数：xyz
+        功能：生成 camera_link 及其与 base_link 的固定 joint
+    -->
+    <xacro:macro name="camera_xacro" params="xyz">
+        <!-- 定义摄像头 link -->
+        <link name="camera_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${imu_size} ${imu_size} ${imu_size}"/>
+                </geometry>
+                <material name="green">
+                    <color rgba="${color_green}"/>
+                </material>
+            </visual>
+        </link>
+
+        <!-- 定义摄像头与 base_link 的固定 joint -->
+        <joint name="camera_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="camera_link"/>
+            <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+        </joint>
+    </xacro:macro>
+</robot>

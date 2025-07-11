@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+    文件：caster.urdf.xacro
+    功能：定义 caster wheel 的 xacro 宏
+    作者：hzy
+    日期：2025-07-11
+-->
+<robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!--
+        宏：caster_xacro
+        参数：${caster_name}, xyz
+        功能：生成 caster link 及其与 base_link 的固定 joint
+    -->
+    <xacro:macro name="caster_xacro" params="caster_name xyz">
+        <!-- 定义 {caster_name} link -->
+        <link name="${caster_name}_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <sphere radius="0.016"/>
+                </geometry>
+                <material name="yellow">
+                    <color rgba="1.0 1.0 0.0 0.8"/>
+                </material>
+            </visual>
+        </link>
+
+        <!-- 定义 caster 与 base_link 的固定 joint -->
+        <joint name="${caster_name}_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="${caster_name}_link"/>
+            <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+        </joint>
+    </xacro:macro>
+</robot>

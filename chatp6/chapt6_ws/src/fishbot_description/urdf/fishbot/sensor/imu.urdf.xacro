@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+    文件：imu.urdf.xacro
+    功能：定义 IMU 传感器的 xacro 宏
+    作者：hzy
+    日期：2025-07-11
+-->
+<robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- IMU 传感器尺寸参数 -->
+    <xacro:property name="imu_size" value="0.02"/>
+    <!-- IMU 传感器颜色参数 -->
+    <xacro:property name="color_black" value="0.0 0.0 0.0 0.5"/>
+
+    <!--
+        宏：imu_xacro
+        参数：imu_size, color_black, xyz
+        功能：生成 IMU link 及其与 base_link 的固定 joint
+    -->
+    <xacro:macro name="imu_xacro" params="xyz">
+        <!-- 定义 IMU link -->
+        <link name="imu_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${imu_size} ${imu_size} ${imu_size}"/>
+                </geometry>
+                <material name="black">
+                    <color rgba="${color_black}"/>
+                </material>
+            </visual>
+        </link>
+
+        <!-- 定义 IMU 与 base_link 的固定 joint -->
+        <joint name="imu_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="imu_link"/>
+            <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+        </joint>
+    </xacro:macro>
+</robot>

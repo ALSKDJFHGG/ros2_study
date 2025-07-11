@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+    文件：base.urdf.xacro
+    功能：定义底盘 base_link 的 xacro 宏
+    作者：hzy
+    日期：2025-07-11
+-->
+<robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- 底盘参数定义 -->
+    <!-- <xacro:property name="base_radius" value="0.10"/>
+    <xacro:property name="base_length" value="0.12"/> -->
+    <xacro:property name="color_white" value="1.0 1.0 1.0 0.5"/>
+
+    <!--
+        宏：base_xacro
+        参数：base_length, base_radius, color_white
+        功能：生成底盘 base_link
+    -->
+    <xacro:macro name="base_xacro" params="base_length base_radius">
+        <!-- 定义底盘 link -->
+        <link name="base_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${base_radius}" length="${base_length}"/>
+                </geometry>
+                <material name="white">
+                    <color rgba="${color_white}"/>
+                </material>
+            </visual>
+        </link>
+    </xacro:macro>
+</robot>
