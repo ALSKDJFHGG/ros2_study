@@ -4,27 +4,37 @@
     功能：定义激光传感器的 xacro 宏
     作者：hzy
     日期：2025-07-11
+    描述：
+        1. 支撑杆（绿色）和雷达主体（红色）均包含可视化与碰撞体属性。
+        2. 支撑杆通过 joint 连接到底盘 base_link，雷达主体通过 joint 连接支撑杆。
+        3. 所有参数均可灵活调整，便于模型扩展。
 -->
 <robot name="fishbot" xmlns:xacro="http://ros.org/wiki/xacro">
-    <!-- 激光传感器支撑杆尺寸参数 -->
+    <!-- 支撑杆尺寸参数（绿色），用于定义支撑杆的半径和长度 -->
     <xacro:property name="laser_cy_radius" value="0.005"/>
     <xacro:property name="laser_cy_length" value="0.05" />
-    <!-- 雷达参数 -->
+    <!-- 雷达主体参数（红色），用于定义雷达的半径和长度 -->
     <xacro:property name="laser_radius" value="0.02" />
     <xacro:property name="laser_length" value="0.02" />
-    <!-- 激光传感器颜色参数 -->
+    <!-- 颜色参数，分别用于支撑杆（绿色）、雷达主体（红色）、备用黑色 -->
     <xacro:property name="color_green" value="0.0 1.0 0.0 0.8"/>
     <xacro:property name="color_black" value="0.0 0.0 0.0 0.8"/>
+    <!-- 红色参数，应用于雷达主体 -->
+    <xacro:property name="color_red" value="1.0 0.0 0.0 0.8"/>
 
     <!--
         宏：laser_xacro
-        参数：imu_size, color_black, xyz
-        功能：生成激光传感器 link 及其与 base_link 的固定 joint
+        参数：xyz（支撑杆在 base_link 下的位置）
+        功能：
+            1. 生成激光传感器支撑杆（绿色）和雷达主体（红色）
+            2. 支撑杆与 base_link 通过 joint 连接
+            3. 雷达主体与支撑杆通过 joint 连接
     -->
     <xacro:macro name="laser_xacro" params="xyz">
-        <!-- 定义激光传感器支撑杆 link -->
+        <!-- 支撑杆 link（绿色），包含可视化和碰撞体 -->
         <link name="laser_cylinder_link">
             <visual>
+                <!-- 支撑杆可视化部分，绿色 -->
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <cylinder radius="${laser_cy_radius}" length="${laser_cy_length}"/>
@@ -33,28 +43,51 @@
                     <color rgba="${color_green}"/>
                 </material>
             </visual>
+            <collision>
+                <!-- 支撑杆碰撞体部分，绿色 -->
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${laser_cy_radius}" length="${laser_cy_length}"/>
+                </geometry>
+                <material name="green">
+                    <color rgba="${color_green}"/>
+                </material>
+            </collision>
         </link>
-        <!-- 雷达 -->
+        <!-- 雷达主体 link（红色），包含可视化和碰撞体 -->
         <link name="laser_link">
             <visual>
+                <!-- 雷达主体可视化部分，红色 -->
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <cylinder radius="${laser_radius}" length="${laser_length}"/>
                 </geometry>
-                <material name="black">
-                    <color rgba="${color_black}"/>
+                <material name="red">
+                    <color rgba="${color_red}"/>
                 </material>
             </visual>
+            <collision>
+                <!-- 雷达主体碰撞体部分，红色 -->
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${laser_radius}" length="${laser_length}"/>
+                </geometry>
+                <material name="red">
+                    <color rgba="${color_red}"/>
+                </material>
+            </collision>
         </link>
 
-        <!-- 定义激光传感器与 base_link 的固定 joint -->
+        <!-- 雷达主体与支撑杆的固定 joint -->
         <joint name="laser_joint" type="fixed">
+            <!-- 雷达主体与支撑杆连接 -->
             <parent link="laser_cylinder_link"/>
             <child link="laser_link"/>
             <origin xyz="0.0 0.0 0.035" rpy="0.0 0.0 0.0"/>
         </joint>
 
         <joint name="laser_cylinker_link" type="fixed">
+            <!-- 支撑杆与 base_link 连接 -->
             <parent link="base_link"/>
             <child link="laser_cylinder_link"/>
             <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>

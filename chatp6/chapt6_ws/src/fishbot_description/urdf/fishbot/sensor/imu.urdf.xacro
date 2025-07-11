@@ -28,6 +28,15 @@
                     <color rgba="${color_black}"/>
                 </material>
             </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${imu_size} ${imu_size} ${imu_size}"/>
+                </geometry>
+                <material name="black">
+                    <color rgba="${color_black}"/>
+                </material>
+            </collision>
         </link>
 
         <!-- 定义 IMU 与 base_link 的固定 joint -->

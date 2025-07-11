@@ -17,6 +17,8 @@
         功能：生成底盘 base_link
     -->
     <xacro:macro name="base_xacro" params="base_length base_radius">
+        <link name="robot_footprint" />
+
         <!-- 定义底盘 link -->
         <link name="base_link">
             <visual>
@@ -28,6 +30,21 @@
                     <color rgba="${color_white}"/>
                 </material>
             </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${base_radius}" length="${base_length}"/>
+                </geometry>
+                <material name="white">
+                    <color rgba="${color_white}"/>
+                </material>
+            </collision>
         </link>
+
+        <joint name="footprint_joint" type="fixed">
+            <origin xyz="0.0 0.0 ${base_length/2.0+0.032}" rpy="0.0 0.0 0.0"/>
+            <parent link="robot_footprint"/>
+            <child link="base_link"/>
+        </joint>
     </xacro:macro>
 </robot>

@@ -31,6 +31,15 @@
                     <color rgba="${color_green}"/>
                 </material>
             </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${imu_size} ${imu_size} ${imu_size}"/>
+                </geometry>
+                <material name="green">
+                    <color rgba="${color_green}"/>
+                </material>
+            </collision>
         </link>
 
         <!-- 定义摄像头与 base_link 的固定 joint -->
